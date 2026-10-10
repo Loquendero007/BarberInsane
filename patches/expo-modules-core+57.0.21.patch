@@ -1,0 +1,36 @@
+diff --git a/node_modules/expo-modules-core/android/CMakeLists.txt b/node_modules/expo-modules-core/android/CMakeLists.txt
+index 1111111..2222222 100644
+--- a/node_modules/expo-modules-core/android/CMakeLists.txt
++++ b/node_modules/expo-modules-core/android/CMakeLists.txt
+@@ -2,7 +2,17 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
+ set(CMAKE_CXX_STANDARD 20)
+ 
+ project(expo-modules-core)
+ 
++if(ANDROID_ABI STREQUAL "arm64-v8a")
++  set(BI_STL_TRIPLE "aarch64-linux-android")
++elseif(ANDROID_ABI STREQUAL "armeabi-v7a")
++  set(BI_STL_TRIPLE "arm-linux-androideabi")
++elseif(ANDROID_ABI STREQUAL "x86")
++  set(BI_STL_TRIPLE "i686-linux-android")
++else()
++  set(BI_STL_TRIPLE "x86_64-linux-android")
++endif()
++
+ include(${CMAKE_SOURCE_DIR}/cmake/variables.cmake)
+ include(${CMAKE_SOURCE_DIR}/cmake/common.cmake)
+ 
+diff --git a/node_modules/expo-modules-core/android/cmake/main.cmake b/node_modules/expo-modules-core/android/cmake/main.cmake
+index 3333333..4444444 100644
+--- a/node_modules/expo-modules-core/android/cmake/main.cmake
++++ b/node_modules/expo-modules-core/android/cmake/main.cmake
+@@ -60,9 +60,10 @@ target_link_libraries(
+   expo-modules-core
+   PRIVATE
+   ${LOG_LIB}
+   android
+   ${JSEXECUTOR_LIB}
+   ${NEW_ARCHITECTURE_DEPENDENCIES}
+   expo-modules-jsi
++  "${CMAKE_SYSROOT}/usr/lib/${BI_STL_TRIPLE}/libc++_shared.so"
+ )

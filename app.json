@@ -1,0 +1,67 @@
+{
+  "expo": {
+    "name": "BarberInsane",
+    "slug": "BarberInsane",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "barberinsane",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.barberinsane.app",
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "com.barberinsane.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#0B0B0F",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACTIVITY_RECOGNITION"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0B0B0F",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 76
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "BarberInsane usa tu ubicación para registrar automáticamente tu llegada a la barbería."
+        }
+      ],
+      [
+        "expo-sensors",
+        {
+          "motionPermission": "BarberInsane usa los sensores de movimiento para contar tus pasos y detectar gestos."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "BarberInsane accede a tus fotos para que puedas elegir tu avatar.",
+          "microphonePermission": false
+        }
+      ],
+      "expo-build-properties"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}

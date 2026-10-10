@@ -1,0 +1,31 @@
+diff --git a/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake b/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake
+index 555555..666666 100644
+--- a/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake
++++ b/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake
+@@ -18,6 +18,16 @@ cmake_minimum_required(VERSION 3.13)
+ set(CMAKE_VERBOSE_MAKEFILE on)
+ 
++if(ANDROID_ABI STREQUAL "arm64-v8a")
++  set(BI_STL_TRIPLE "aarch64-linux-android")
++elseif(ANDROID_ABI STREQUAL "armeabi-v7a")
++  set(BI_STL_TRIPLE "arm-linux-androideabi")
++elseif(ANDROID_ABI STREQUAL "x86")
++  set(BI_STL_TRIPLE "i686-linux-android")
++else()
++  set(BI_STL_TRIPLE "x86_64-linux-android")
++endif()
++
+ include(${CMAKE_CURRENT_LIST_DIR}/folly-flags.cmake)
+ 
+ # We configured the REACT_COMMON_DIR variable as it's commonly used to reference
+@@ -81,7 +91,8 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
+         fbjni                               # via 3rd party prefab
+         jsi                                 # prefab ready
+         reactnative                         # prefab ready
++        "${CMAKE_SYSROOT}/usr/lib/${BI_STL_TRIPLE}/libc++_shared.so"
+ )
+ 
+ # We use an interface target to propagate flags to all the generated targets
+ # such as the folly flags or others.
+ add_library(common_flags INTERFACE)
+ target_compile_options(common_flags INTERFACE ${folly_FLAGS})

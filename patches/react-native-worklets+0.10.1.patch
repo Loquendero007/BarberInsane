@@ -1,0 +1,25 @@
+diff --git a/node_modules/react-native-worklets/android/CMakeLists.txt b/node_modules/react-native-worklets/android/CMakeLists.txt
+index d10aa6b..dc33ff4 100644
+--- a/node_modules/react-native-worklets/android/CMakeLists.txt
++++ b/node_modules/react-native-worklets/android/CMakeLists.txt
+@@ -88,8 +88,19 @@ target_include_directories(
+ # build shared lib
+ set_target_properties(worklets PROPERTIES LINKER_LANGUAGE CXX)
+ 
++if(ANDROID_ABI STREQUAL "arm64-v8a")
++  set(BI_STL_TRIPLE "aarch64-linux-android")
++elseif(ANDROID_ABI STREQUAL "armeabi-v7a")
++  set(BI_STL_TRIPLE "arm-linux-androideabi")
++elseif(ANDROID_ABI STREQUAL "x86")
++  set(BI_STL_TRIPLE "i686-linux-android")
++else()
++  set(BI_STL_TRIPLE "x86_64-linux-android")
++endif()
++
+ target_link_libraries(worklets android log ReactAndroid::reactnative
+-                      ReactAndroid::jsi fbjni::fbjni)
++                      ReactAndroid::jsi fbjni::fbjni
++                      "${CMAKE_SYSROOT}/usr/lib/${BI_STL_TRIPLE}/libc++_shared.so")
+ 
+ if(ReactAndroid_VERSION_MINOR GREATER_EQUAL 82)
+   target_link_libraries(worklets hermes-engine::hermesvm)
